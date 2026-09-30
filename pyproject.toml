@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "maths-765-graphs"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8, <3.9"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "0Huitzil", email = "paco.castaneda.ruan@auckland.ac.nz" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "numpy>=1.19.1, <1.25.0",      # NumPy 1.25+ dropped Python 3.8
+  "pandas>=1.4.3, <2.1.0",       # Pandas 2.1+ dropped Python 3.8
+  "scipy>=1.9.0, <1.11.0",       # SciPy 1.11+ dropped Python 3.8
+  "matplotlib>=3.4.0, <3.8.0",   # Matplotlib 3.8+ dropped Python 3.8
+  "pillow>=10.4.0, <10.5.0",     # Pillow 10.4 is final release supporting 3.8
+  "mpmath>=1.3.0",
+  "sympy>=1.13.3",
+]
+# Optional development dependencies (Jupyter / IPython tooling from your env)
+[project.optional-dependencies]
+dev = [
+    "ipykernel>=6.29.5",
+    "ipython>=8.12.2, <8.13.0",    # IPython 8.13+ dropped Python 3.8
+    "debugpy>=1.6.7",
+]
+[project.urls]
+Documentation = "https://github.com/0Huitzil/maths-765-graphs#readme"
+Issues = "https://github.com/0Huitzil/maths-765-graphs/issues"
+Source = "https://github.com/0Huitzil/maths-765-graphs"
+
+[tool.hatch.version]
+path = "src/maths_765_graphs/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/maths_765_graphs tests}"
+
+[tool.coverage.run]
+source_pkgs = ["maths_765_graphs", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/maths_765_graphs/__about__.py",
+]
+
+[tool.coverage.paths]
+maths_765_graphs = ["src/maths_765_graphs", "*/maths-765-graphs/src/maths_765_graphs"]
+tests = ["tests", "*/maths-765-graphs/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
