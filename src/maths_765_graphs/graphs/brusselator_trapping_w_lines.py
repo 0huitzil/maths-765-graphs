@@ -1,0 +1,73 @@
+#%%
+from maths_765_graphs.models.brusselator import brusselator, N_x, N_y, eq, trapping_lines, trapping_lines_markers, trapping_lines_ics, par
+from maths_765_graphs.models import getIVP
+from maths_765_graphs import cm, add_arrow_to_line2D
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+import matplotlib.lines as mlines
+import numpy as np
+
+# Trajectories
+trajs = []
+ics = trapping_lines_ics()
+for ic in ics:
+    ics = {
+        'X': ic[0], 
+        'Y': ic[1]
+    }
+    tf = 6
+    traj = getIVP(brusselator, par, ics, tini=0, tf=tf)
+    trajs.append(traj)
+t, X, Y = traj
+
+# Nullclines
+n = 200
+xlim = [0.2, 5]
+ylim = [0.2, 5]
+x0 = np.linspace(xlim[0], xlim[-1], n)
+y0 = np.linspace(ylim[0], ylim[-1], n)
+Nx = N_x(x0, y0, par)
+Ny = N_y(x0, y0, par)
+
+# Trapping lines
+xlim = [0, 5]
+ylim = [0, 5]
+x0 = np.linspace(xlim[0], xlim[-1], n)
+y0 = np.linspace(ylim[0], ylim[-1], n)
+trap_lines = trapping_lines(x0, y0)
+
+"""
+Figure settings
+"""
+fig = plt.figure(constrained_layout = True)
+spec = gridspec.GridSpec(ncols = 1, nrows=1, figure=fig)
+fig.set_size_inches([19.58*cm,15.88*cm])
+ax = fig.add_subplot(spec[0, 0])
+
+for traj in trajs:
+    t, X, Y = traj
+    ax.plot(X[0], Y[0], color = 'C4', marker='o', markersize=10)
+    line, = ax.plot(X, Y, color = 'C0')
+    add_arrow_to_line2D(ax, line, arrow_locs = [0.2, 0.4, 0.6, 0.8], arrowsize=2)
+for line in trap_lines:
+    X, Y = line
+    line, = ax.plot(X, Y, color = 'C1')
+i = 1
+for marker in trapping_lines_markers():
+    X, Y = marker
+    ax.text(X, Y, 'L' + str(i))
+    i+= 1
+ax.plot(Nx[0], Nx[1], label = 'X nullcline', color = 'C7')
+ax.plot(Ny[0], Ny[1], label = 'Y nullcline', color = 'C7')
+xlim = [0, 5]
+ylim = [0, 4.75]
+ax.set_xlim([xlim[0], xlim[-1]])
+ax.set_xticks(xlim)
+ax.set_ylim(ylim[0], ylim[-1])
+ax.set_yticks(ylim)
+ax.legend()
+
+ax.set_ylabel('Y')
+ax.set_xlabel('X')
+
+fig.savefig('brusselator_graphs/brusselator_trapping_lines.png',transparent=True, dpi=300)

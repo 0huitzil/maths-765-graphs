@@ -1,8 +1,3 @@
-import numpy as np
-from numpy import sqrt, exp
-from numpy.polynomial import Polynomial
-from scipy.integrate import solve_ivp
-
 par = {
     'a1': 2/3, 
     'a2': 1, 

@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
 from cycler import cycler
+cm = 1/2.54
 """
 Personal chanes to the matplotlib RcParams matplotlib file
 """
