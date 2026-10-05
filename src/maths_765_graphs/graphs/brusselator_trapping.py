@@ -1,11 +1,16 @@
-#%%
-from maths_765_graphs.models.brusselator import brusselator, N_x, N_y, eq, trapping_lines, trapping_lines_markers,par
-from maths_765_graphs.models import getIVP
-from maths_765_graphs import cm, add_arrow_to_line2D
-import matplotlib.pyplot as plt
+# %%
 import matplotlib.gridspec as gridspec
-import matplotlib.lines as mlines
+import matplotlib.pyplot as plt
 import numpy as np
+
+from maths_765_graphs import cm
+from maths_765_graphs.models.brusselator import (
+    N_x,
+    N_y,
+    par,
+    trapping_lines,
+    trapping_lines_markers,
+)
 
 # Nullclines
 n = 200
@@ -26,21 +31,21 @@ trap_lines = trapping_lines(x0, y0)
 """
 Figure settings
 """
-fig = plt.figure(constrained_layout = True)
-spec = gridspec.GridSpec(ncols = 1, nrows=1, figure=fig)
-fig.set_size_inches([19.58*cm,15.88*cm])
+fig = plt.figure(constrained_layout=True)
+spec = gridspec.GridSpec(ncols=1, nrows=1, figure=fig)
+fig.set_size_inches([19.58 * cm, 15.88 * cm])
 ax = fig.add_subplot(spec[0, 0])
 
 for line in trap_lines:
     X, Y = line
-    line, = ax.plot(X, Y, color = 'C1')
+    (line,) = ax.plot(X, Y, color="C1")
 i = 1
 for marker in trapping_lines_markers():
     X, Y = marker
-    ax.text(X, Y, 'L' + str(i))
-    i+= 1
-ax.plot(Nx[0], Nx[1], label = 'X nullcline', color = 'C7')
-ax.plot(Ny[0], Ny[1], label = 'Y nullcline', color = 'C7')
+    ax.text(X, Y, "L" + str(i))
+    i += 1
+ax.plot(Nx[0], Nx[1], label="X nullcline", color="C7")
+ax.plot(Ny[0], Ny[1], label="Y nullcline", color="C7")
 xlim = [0, 5]
 ylim = [0, 4.75]
 ax.set_xlim([xlim[0], xlim[-1]])
@@ -49,7 +54,7 @@ ax.set_ylim(ylim[0], ylim[-1])
 ax.set_yticks(ylim)
 ax.legend()
 
-ax.set_ylabel('Y')
-ax.set_xlabel('X')
+ax.set_ylabel("Y")
+ax.set_xlabel("X")
 
-fig.savefig('brusselator_graphs/brusselator_trapping.png',transparent=True, dpi=300)
+fig.savefig("brusselator_graphs/brusselator_trapping.png", transparent=True, dpi=300)
